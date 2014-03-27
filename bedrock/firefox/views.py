@@ -24,6 +24,7 @@ from rna.models import Release
 
 from bedrock.firefox import version_re
 from bedrock.firefox.forms import SMSSendForm
+from bedrock.mozorg.context_processors import funnelcake_param
 from bedrock.mozorg.views import process_partnership_form
 from bedrock.mozorg.helpers.misc import releasenotes_url
 from bedrock.firefox.utils import is_current_or_newer
@@ -359,9 +360,19 @@ class FirstrunView(LatestFxView):
     def get_template_names(self):
         version = self.kwargs.get('fx_version')
         locale = l10n_utils.get_locale(self.request)
+        fc_ctx = funnelcake_param(self.request)
+        f = fc_ctx.get('funnelcake_id', 0);
 
-        if version == '29.0' and locale == 'en-US':
-            template = 'firefox/australis/firstrun-tour.html'
+        if (version == '29.0' and locale == 'en-US'):
+            if f == '30':
+                template = 'firefox/australis/firstrun-no-tour.html'
+            elif f == '31':
+                template = 'firefox/australis/firstrun-tour-parallel.html'
+            else:
+                template = 'firefox/australis/firstrun-tour-parallel.html'
+        elif version == '29.0':
+            # non en-US locales always get the tour
+            template = 'firefox/australis/firstrun-tour-parallel.html'
         else:
             template = 'firefox/firstrun.html'
 
@@ -409,10 +420,10 @@ class WhatsnewView(LatestFxView):
         version = self.kwargs.get('fx_version')
         locale = l10n_utils.get_locale(self.request)
 
-        if version == '29.0a1':
+        if version == '29.0':
+            template = 'firefox/australis/whatsnew-tour-parallel.html'
+        elif version == '29.0a1':
             template = 'firefox/whatsnew-nightly-29.html'
-        elif version == '29.0':
-            template = 'firefox/australis/whatsnew-tour-a.html'
         elif locale in self.fxos_locales:
             template = 'firefox/whatsnew-fxos.html'
         else:
@@ -424,7 +435,7 @@ class WhatsnewView(LatestFxView):
 
 class WhatsnewViewGATest(LatestFxView):
 
-    template_name = 'firefox/australis/whatsnew-tour-b.html'
+    template_name = 'firefox/australis/whatsnew-tour-stacked.html'
 
     def get(self, request, *args, **kwargs):
         if not settings.DEV and not request.is_secure():
@@ -437,7 +448,7 @@ class WhatsnewViewGATest(LatestFxView):
 
 
 class TourView(LatestFxView):
-    template_name = 'firefox/australis/firstrun-tour.html'
+    template_name = 'firefox/australis/firstrun-tour-parallel.html.html'
 
     def get(self, request, *args, **kwargs):
         if not settings.DEV and not request.is_secure():

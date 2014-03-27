@@ -446,7 +446,7 @@ class TestWhatsNew(TestCase):
         req = self.rf.get('/en-US/firefox/whatsnew/')
         self.view(req, fx_version='29.0')
         template = render_mock.call_args[0][1]
-        eq_(template, ['firefox/australis/whatsnew-tour-a.html'])
+        eq_(template, ['firefox/australis/whatsnew-tour-parallel.html'])
 
     @override_settings(DEV=False)
     def test_fx_australis_secure_redirect(self, render_mock):
@@ -562,20 +562,11 @@ class TestFirstRun(TestCase):
 
     @override_settings(DEV=True)
     def test_fx_australis_29(self, render_mock):
-        """Should use australis template for 29.0 en-US only."""
+        """Should use australis template for 29.0."""
         req = self.rf.get('/en-US/firefox/firstrun/')
         self.view(req, fx_version='29.0')
         template = render_mock.call_args[0][1]
-        eq_(template, ['firefox/australis/firstrun-tour.html'])
-
-    @override_settings(DEV=True)
-    def test_fx_australis_29_other_locales(self, render_mock):
-        """Should use a different template for other locales"""
-        req = self.rf.get('/fr/firefox/firstrun/')
-        req.locale = 'fr'
-        self.view(req, fx_version='29.0')
-        template = render_mock.call_args[0][1]
-        eq_(template, ['firefox/firstrun.html'])
+        eq_(template, ['firefox/australis/firstrun-tour-parallel.html'])
 
     @override_settings(DEV=False)
     def test_fx_australis_secure_redirect(self, render_mock):
@@ -743,6 +734,46 @@ class TestFirstrunRedirect(FxVersionRedirectsMixin, TestCase):
         self.url = reverse('firefox.firstrun')
         response = self.client.get(self.url, HTTP_USER_AGENT=user_agent)
         self.assertIn(expected, response.content)
+
+    @patch.dict(product_details.firefox_versions,
+            LATEST_FIREFOX_VERSION='16.0')
+    def test_firstrun_tour_alternatives(self):
+        """
+        Hitting /firefox/29.0/firstrun/?f=30 with en-US locale should render
+        firefox/australis/firstrun-no-tour.html. Hitting en-US locale with
+        f=31 should render firefox/australis/firstrun-tour-parallel.html.
+        Any other f value or locale should render firstrun-tour-parallel.html.
+        """
+        user_agent = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:29.0) '
+                      'Gecko/20100101 Firefox/29.0')
+
+        expected = 'data-has-tour="True"'
+        self.url = reverse('firefox.firstrun', args=['29.0'])
+
+        # en-US with funnelcake id 30 should not give a tour
+        response = self.client.get(self.url + '?f=30', HTTP_USER_AGENT=user_agent)
+        self.assertNotIn(expected, response.content)
+
+        # en-US with funnelcake id 31 should give a tour
+        response = self.client.get(self.url + '?f=31', HTTP_USER_AGENT=user_agent)
+        self.assertIn(expected, response.content)
+
+        # en-US with improper funnelcake id should still give a tour
+        response = self.client.get(self.url + '?f=0', HTTP_USER_AGENT=user_agent)
+        self.assertIn(expected, response.content)
+
+        # en-US with no funnelcake id should still give a tour
+        response = self.client.get(self.url, HTTP_USER_AGENT=user_agent)
+        self.assertIn(expected, response.content)
+
+        with self.activate('de'):
+            self.url = reverse('firefox.firstrun', args=['29.0'])
+            # es-ES with proper funnelcake id should still get a tour
+            response = self.client.get(self.url + '?f=30', HTTP_USER_AGENT=user_agent)
+            self.assertIn(expected, response.content)
+            # es-ES with no funnelcake id should still get a tour
+            response = self.client.get(self.url, HTTP_USER_AGENT=user_agent)
+            self.assertIn(expected, response.content)
 
 
 @patch.object(fx_views, 'firefox_details', firefox_details)

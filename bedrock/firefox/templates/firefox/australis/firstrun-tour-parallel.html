@@ -1,0 +1,59 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/. #}
+
+{% extends "firefox/australis/firstrun-base.html" %}
+
+{% set_lang_files "firefox/australis/firefox_tour" %}
+
+{% block site_css %}
+  {{ css('firefox_tour_parallel') }}
+{% endblock %}
+
+{% block js %}
+  {{ js('firefox_australis_tour_firstrun') }}
+{% endblock  %}
+
+{% block sync_content %}
+    <header>
+      <h2>{{ _('Have Firefox on another device?') }}</h2>
+      <p>{{ _('You don’t have to start over. Access your history, bookmarks and more.')}}</p>
+    </header>
+    {% include 'firefox/includes/sync-animation.html' %}
+    <div class="sync-content">
+      <div class="sync-cta">
+        <button class="button">{{ _('Get started with Sync') }}</button>
+        <small>{{ _('Create an account from the menu panel') }}</small>
+      </div>
+      {# hiding this content for now as may not be required
+        <div class="sync-alt">
+          <p>{{ _('It looks like you’re already using Sync') }}</p>
+          <ul>
+            <li>
+              <a class="more" href="https://support.mozilla.org/kb/how-do-i-set-up-firefox-sync" target="_blank" title="{{ _('Opens new window') }}">{{ _('Want to connect another device?') }}</a>
+            </li>
+            <li>
+              <a class="more" href="https://support.mozilla.org/kb/how-to-update-to-the-new-firefox-sync" target="_blank" title="{{ _('Opens new window') }}">{{ _('Using an older version of Sync?') }}</a>
+            </li>
+          </ul>
+        </div>
+      #}
+    </div>
+{% endblock %}
+
+{% block share_content %}
+  <header>
+    <h2>{{ _('What kind of Web do you want?') }}</h2>
+    <p>{{ _('When you use Firefox, you help shape the future of the Web.')}}</p>
+  </header>
+  <div class="share-icons">
+    <div class="disc heart"></div>
+    <div class="disc eye"></div>
+    <div class="disc check"></div>
+  </div>
+  <div class="share-cta">
+    <a href="https://webwewant.mozilla.org" class="button more" target="_blank" title="{{ _('Opens new window') }}">
+      {{ _('Share your vision') }}
+    </a>
+  </div>
+{% endblock %}

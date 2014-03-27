@@ -1,0 +1,162 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+#wrapper {
+	width: 100%;
+	padding: 0;
+}
+
+#masthead,
+header[role="banner"] {
+	width: 980px;
+	margin: 0 auto;
+}
+
+.main-container {
+    margin-bottom: 0;
+}
+
+.separator {
+    position: relative;
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        width: 100%;
+        height: 21px;
+        background: url(data:image/png;base64,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) top center no-repeat;
+    }
+}
+
+aside.separator {
+    padding-top: 30px;
+}
+
+.sync {
+    position: relative;
+	width: 100%;
+    min-height: 320px;
+	padding: 0;
+    .inner-container {
+        width: 980px;
+        margin: 0 auto;
+        padding: 0 20px;
+     	clear: both;
+    }
+    header {
+        margin-top: 60px;
+    }
+}
+
+.sync-content {
+    float: left;
+    width: 460px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sync-anim {
+    float: right;
+    width: 460px;
+}
+
+.hide-sync {
+    .sync {
+        display: none;
+    }
+}
+
+.share {
+    position: relative;
+	width: 100%;
+    min-height: 320px;
+    background: #006ba2 url(/media/img/firefox/australis/glow/glow-bg-wide.png) top -30px center no-repeat;
+    .inner-container {
+        width: 980px;
+        margin: 0 auto;
+        padding: 0 20px;
+        z-index: 3;
+        transform: translate3d(0px, 0px, 0px);
+    }
+}
+
+.share-content {
+    float: right;
+    width: 460px;
+    text-align: center;
+    header {
+        margin-top: 80px;
+    }
+    .button {
+        margin-bottom: 40px;
+    }
+}
+
+.share-icons {
+    float: left;
+    width: 460px;
+    height: 320px;
+    .disc {
+        top: 80px;
+        &.heart {
+            left: 170px;
+        }
+        &.eye {
+            left: 320px;
+        }
+        &.check {
+            left: 20px;
+        }
+    }
+}
+
+.rays {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 320px;
+    background-image: url(/media/img/firefox/australis/glow/stacked-rays-sprite.png);
+    background-repeat: no-repeat;
+    &.red {
+        z-index: 2;
+        background-position: center top;
+        &.on {
+            animation: wobble 2s infinite;
+        }
+    }
+    &.green {
+        z-index: 1;
+        background-position: center bottom;
+        &.on {
+            animation: bobble 4s infinite;
+        }
+    }
+}
+
+.learn-more {
+    position: relative;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    ul li {
+        text-align: left;
+    }
+}
+
+html[dir="rtl"] {
+    .sync-content {
+        float: right;
+    }
+    .sync-anim {
+        float: left;
+    }
+    .share-content {
+        float: left;
+    }
+    .share-icons {
+        float: right;
+    }
+}
