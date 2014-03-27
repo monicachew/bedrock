@@ -34,6 +34,10 @@ main header {
     .logo-large;
     background-position:  left 40px;
     background-repeat: no-repeat;
+    .stage {
+        width: 810px;
+        overflow: hidden;
+    }
 }
 
 main header,
@@ -41,7 +45,7 @@ main header,
     h1 {
         position: relative;
         margin: 0;
-        padding: 145px 0 0 310px;
+        padding: 160px 0 0 310px;
         font-size: 40px;
         line-height: 1.1;
         letter-spacing: -2px;
@@ -61,6 +65,19 @@ main header,
         font-size: 22px;
         padding-left: 310px;
         line-height: 1.2;
+    }
+}
+
+#whatsnew {
+    main header,
+    #ui-tour-mask .mask-inner {
+        h1 {
+            font-size: 30px;
+            letter-spacing: -1px;
+            .main {
+                font-size: 60px;
+            }
+        }
     }
 }
 
@@ -87,6 +104,7 @@ main header,
         .stage {
             margin-left: 281px;
             padding-left: 29px;
+            width: 500px;
             overflow: hidden;
         }
         h1, p {
@@ -100,6 +118,7 @@ main header,
         }
         p {
             display: none;
+            width: 500px;
             span {
                 opacity: 0;
                 color: #fff;
@@ -762,7 +781,7 @@ html[dir="rtl"] {
     main header {
         background-position:  right 40px;
         h1 {
-            padding: 145px 310px 0 0;
+            padding: 160px 310px 0 0;
         }
         p {
             padding-left: 0;
@@ -796,10 +815,10 @@ html[dir="rtl"] {
             &.in {
                 h1 {
                     .lead {
-                        .slide-in-from-right(@duration: 1s, @delay: .8s);
+                        .slide-in-from-right(@duration: .6s, @timing: ease-out, @delay: .4s);
                     }
                     .main {
-                        .slide-in-from-right(@duration: 1s, @delay: 1.8s);
+                        .slide-in-from-right(@duration: .6s, @timing: ease-out, @delay: 1s);
                     }
                 }
             }

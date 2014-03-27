@@ -6,16 +6,38 @@
 
 {% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
 
-{% block page_title_prefix %}{% endblock %}
-{% block page_title %}{{ _('Welcome to the new Firefox') }}{% endblock %}
-{% block page_title_suffix %}{% endblock %}
 {% block body_class %}sky{% endblock %}
 
 {% block site_css %}
   {{ css('firefox_australis_tour') }}
 {% endblock %}
 
-{% block string_data %}{% endblock %}
+{% block string_data %}
+{# L10n: This is the label for a button that opens the tour modal dialog #}
+data-open="{{ _('Open tour') }}"
+{# L10n: This is the label for a button that closes the tour modal dialog #}
+data-close="{{ _('Close tour') }}"
+{# L10n: This is the label for a button that proceeds to the next step of the tour #}
+data-next="{{ _('Next') }}"
+{# L10n: This is the label for a button that starts the tour #}
+data-start="{{ _('Let’s go') }}"
+{# L10n: This is the label for a button that delays starting the tour #}
+data-later="{{ _('Not now') }}"
+{# L10n: This is the title for a door-hanger menu that shows in the browser chrome #}
+data-title="{{ _('See what’s new') }}"
+{# L10n: This is the text for a door-hanger menu that shows in the browser chrome #}
+data-text="{{ _('It’s the fastest, most flexible Firefox ever.') }}"
+{# L10n: This is the text for a call to action that appears in the web page #}
+data-later-cta="{{ _('Take the tour to see what’s new') }}"
+{# L10n: This is the label that represents tour step one of four #}
+data-step1="{{ _('1/4') }}"
+{# L10n: This is the label that represents tour step two of four #}
+data-step2="{{ _('2/4') }}"
+{# L10n: This is the label that represents tour step three of four #}
+data-step3="{{ _('3/4') }}"
+{# L10n: This is the label that represents tour step four of four #}
+data-step4="{{ _('4/4') }}"
+{% endblock %}
 
 {% block site_header %}
   <header id="masthead">
@@ -29,17 +51,11 @@
 {% block content %}
   {# begin page content #}
   <main role="main">
-    <header>
-      <h1>
-        <span class="lead">{{ _('Welcome to the') }}</span>
-        <span class="main">{{ _('new Firefox') }}</span>
-      </h1>
-      <p>{{ _('The fast, flexible browser you can trust.') }}</p>
-    </header>
+    {% block main_header %}{% endblock %}
     <div class="sync">
       <section>
         <h2>{{ _('Keep your Firefox in Sync') }}</h2>
-        <p>{{ _('Instantly make Firefox your own wherever you use it. Access your bookmarks, history, passwords and more from any device.')}}
+        <p>{{ _('Access your bookmarks, passwords and more from any device.')}}
         <div class="sync-cta">
           <button class="button">{{ _('Get started with Sync') }}</button>
           <small>{{ _('Create an account from the menu') }}</small>
